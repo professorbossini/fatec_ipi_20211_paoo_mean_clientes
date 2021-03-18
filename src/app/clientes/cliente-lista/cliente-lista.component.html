@@ -5,6 +5,10 @@
     </mat-expansion-panel-header>
     <p>Fone: {{cli.fone}}</p>
     <p>Email: {{cli.email}}</p>
+    <mat-action-row>
+      <button mat-button color="primary">EDITAR</button>
+      <button mat-button color="warn">REMOVER</button>
+    </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
 <p class="mat-body-1" style="text-align:center;" *ngIf="clientes.length <= 0">Nenhum cliente cadastrado</p>

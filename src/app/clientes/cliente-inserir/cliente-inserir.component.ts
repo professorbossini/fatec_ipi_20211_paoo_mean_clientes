@@ -13,7 +13,7 @@ export class ClienteInserirComponent{
 
   }
   onAdicionarCliente(form: NgForm){
-    console.log(form);
+    //console.log(form);
     if(form.invalid) return;
     this.clienteService.adicionarCliente(
       form.value.nome,

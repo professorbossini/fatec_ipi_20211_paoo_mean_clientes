@@ -1,37 +1,57 @@
 const express = require ('express')
 const cors = require ('cors')
-const app = express()
+const mongoose = require ('mongoose')
+const Cliente = require('./models/cliente')
 
+
+const userDB = process.env.MONGODB_USER;
+const passDB = process.env.MONGODB_PASSWORD;
+const clusterDB = process.env.MONGODB_CLUSTER;
+const nameDB = process.env.MONGODB_DATABASE;
+
+
+mongoose.connect(`mongodb+srv://${userDB}:${passDB}@${clusterDB}.mongodb.net/${nameDB}?retryWrites=true&w=majority`, { useNewUrlParser: true })
+.then(() => console.log('MongoDB: Conexao OK'))
+.catch((erro) => console.log('MongoDB: COnexao NOK: ' + erro))
+
+const app = express()
 app.use(express.json())
 app.use(cors())
 
-const clientes = [
-  {
-    id: '1',
-    nome: 'Jose',
-    fone: '11223344',
-    email: 'jose@email.com'
-  },
-  {
-    id: '2',
-    nome: 'Jaqueline',
-    fone: '22113322',
-    email: 'jaqueline@email.com'
-  }
-]
-
 app.post('/api/clientes', (req, res, next) => {
-  console.log(req)
+  /*console.log(req)
   const cliente = req.body
-  console.log(cliente)
-  res.status(201).json({mensagem: 'Cliente inserido'})
+  console.log(cliente)*/
+  const cliente = new Cliente ({
+    nome: req.body.nome,
+    fone: req.body.fone,
+    email: req.body.email
+  })
+  //console.log(cliente);
+  cliente.save().then(clienteInserido => {
+    res.status(201).json({
+      mensagem: 'Cliente inserido',
+      id: clienteInserido._id
+    })
+  })
 })
 
 
 app.get ("/api/clientes", (req, res, next) => {
-  res.status(200).json({
-    mensagem: "Tudo OK",
-    clientes: clientes
+  Cliente.find().then(documents => {
+    console.log(documents);
+    res.status(200).json({
+      mensagem: "Tudo OK",
+      clientes: documents
+    })
+  })
+})
+
+//localhost:3000/api/clientes/abcd
+app.delete ('/api/clientes/:id', (req, res) => {
+  Cliente.deleteOne({_id: req.params.id}).then((resultado) => {
+    console.log(resultado);
+    res.status(200).json({mensagem: 'Cliente removido'});
   })
 })
 

@@ -10,6 +10,9 @@
 # dependencies
 /node_modules
 
+#arquivo com senhas
+env.js
+.env
 # profiling files
 chrome-profiler-events*.json
 speed-measure-plugin*.json

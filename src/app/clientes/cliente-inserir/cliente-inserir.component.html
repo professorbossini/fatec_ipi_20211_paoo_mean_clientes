@@ -1,5 +1,6 @@
 <mat-card>
-  <form (submit)="onSalvarCliente(clienteForm)" #clienteForm="ngForm">
+  <mat-spinner *ngIf="estaCarregando"></mat-spinner>
+  <form *ngIf="!estaCarregando" (submit)="onSalvarCliente(clienteForm)" #clienteForm="ngForm">
     <mat-form-field>
       <input
         type="text"

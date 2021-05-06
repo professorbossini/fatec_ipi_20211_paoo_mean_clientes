@@ -1,4 +1,5 @@
-<mat-accordion *ngIf="clientes.length > 0">
+<mat-spinner *ngif="estaCarregando"></mat-spinner>
+<mat-accordion *ngIf="clientes.length > 0 && !estaCarregando">
   <mat-expansion-panel *ngFor="let cli of clientes" >
     <mat-expansion-panel-header>
      Nome: {{cli.nome}}
@@ -11,4 +12,4 @@
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
-<p class="mat-body-1" style="text-align:center;" *ngIf="clientes.length <= 0">Nenhum cliente cadastrado</p>
+<p class="mat-body-1" style="text-align:center;" *ngIf="clientes.length <= 0 && !estaCarregando">Nenhum cliente cadastrado</p>

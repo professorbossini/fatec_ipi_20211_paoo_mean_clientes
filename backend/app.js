@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require ('express')
 const cors = require ('cors')
 const mongoose = require ('mongoose')
@@ -16,6 +17,7 @@ mongoose.connect(`mongodb+srv://${userDB}:${passDB}@${clusterDB}.mongodb.net/${n
 
 const app = express()
 app.use(express.json())
+app.use('/imagens', express.static(path.join('backend/imagens')));
 app.use(cors())
 
 app.use('/api/clientes', clienteRoutes);

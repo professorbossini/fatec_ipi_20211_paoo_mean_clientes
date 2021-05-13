@@ -25,7 +25,8 @@ export class ClienteService{
             id: cliente._id,
             nome: cliente.nome,
             fone: cliente.fone,
-            email: cliente.email
+            email: cliente.email,
+            imagemURL: cliente.imagemURL
           }
         })
     })).
@@ -38,17 +39,29 @@ export class ClienteService{
     //return [...this.clientes];
   }
 
-  adicionarCliente(nome: string, fone: string, email: string){
-    const cliente: Cliente = {
-      id: null,
-      nome: nome,
-      fone: fone,
-      email: email
-    }
-    this.httpClient.post<{mensagem: string, id: string}>('http://localhost:3000/api/clientes', cliente).subscribe(
+  adicionarCliente(nome: string, fone: string, email: string, imagem: File){
+    // const cliente: Cliente = {
+    //   id: null,
+    //   nome: nome,
+    //   fone: fone,
+    //   email: email
+    // }
+    const dadosCliente = new FormData();
+    dadosCliente.append('nome', nome);
+    dadosCliente.append('fone', fone);
+    dadosCliente.append('email', email);
+    dadosCliente.append('imagem', imagem);
+    this.httpClient.post<{ mensagem: string, cliente: Cliente }>('http://localhost:3000/api/clientes', dadosCliente).subscribe(
       (dados) => {
         console.log(dados.mensagem)
-        cliente.id = dados.id;
+        //cliente.id = dados.id;
+        const cliente: Cliente = {
+          id: dados.cliente.id,
+          nome: nome,
+          fone: fone,
+          email: email,
+          imagemURL: dados.cliente.imagemURL
+        };
         this.clientes.push(cliente)
         this.listaClientesAtualizada.next([...this.clientes])
         this.router.navigate(['/']);
@@ -57,7 +70,7 @@ export class ClienteService{
   }
 
   atualizarCliente (id: string, nome: string, fone: string, email: string){
-    const cliente: Cliente = {id, nome, fone, email};
+    const cliente: Cliente = {id, nome, fone, email, imagemURL: null};
     this.httpClient.put (`http://localhost:3000/api/clientes/${id}`, cliente).
     subscribe((res) => {
       const copia = [...this.clientes];

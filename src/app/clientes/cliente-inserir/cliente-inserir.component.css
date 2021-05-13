@@ -6,3 +6,16 @@ mat-form-field, input {
 mat-spinner{
   margin: auto;
 }
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.imagem-preview{
+  height: 5rem;
+  margin: 1rem 0;
+}
+
+.imagem-preview img {
+  height: 100%;
+}

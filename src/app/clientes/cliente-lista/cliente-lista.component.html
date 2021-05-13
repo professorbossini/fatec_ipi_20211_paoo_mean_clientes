@@ -1,9 +1,12 @@
-<mat-spinner *ngif="estaCarregando"></mat-spinner>
+<mat-spinner *ngIf="estaCarregando"></mat-spinner>
 <mat-accordion *ngIf="clientes.length > 0 && !estaCarregando">
   <mat-expansion-panel *ngFor="let cli of clientes" >
     <mat-expansion-panel-header>
      Nome: {{cli.nome}}
     </mat-expansion-panel-header>
+    <div class="cliente-imagem">
+      <img [src]="cli.imagemURL" [alt]="cli.nome">
+    </div>
     <p>Fone: {{cli.fone}}</p>
     <p>Email: {{cli.email}}</p>
     <mat-action-row>

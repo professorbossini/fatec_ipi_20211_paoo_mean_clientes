@@ -87,7 +87,7 @@ router.delete('/:id', (req, res) => {
 
 //http://localhost:3000/api/clientes/123456
 router.put(
- ' /:id',
+ '/:id',
   multer({ storage: armazenamento}).single('imagem'),
   (req, res, next) => {
   let imagemURL = req.body.imagemURL;

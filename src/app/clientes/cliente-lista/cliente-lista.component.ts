@@ -20,10 +20,10 @@ export class ClienteListaComponent implements OnInit, OnDestroy {
 
   }
 
-  totalDeClientes: number = 10;
-  totalDeClientesPorPagina: number = 2;
+  totalDeClientes: number;
+  totalDeClientesPorPagina: number;
   opcoesTotalDeClientesPorPagina = [2, 5, 10]
-  paginaAtual: number = 1;
+  paginaAtual: number;
 
 
   ngOnInit(): void {

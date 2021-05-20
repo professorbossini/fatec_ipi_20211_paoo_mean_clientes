@@ -57,6 +57,7 @@ export class ClienteInserirComponent implements OnInit {
             email: dadosCli.email,
             imagemURL: dadosCli.imagemURL
           }
+         this.previewImagem = this.cliente.imagemURL;
           this.form.setValue({
             nome: this.cliente.nome,
             fone: this.cliente.fone,

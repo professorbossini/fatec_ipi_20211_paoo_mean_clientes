@@ -57,11 +57,22 @@ router.get('/:id', (req, res) => {
 });
 
 router.get("", (req, res, next) => {
-  Cliente.find().then(documents => {
-    console.log(documents);
+  const pageSize = +req.query.pageSize;
+  const page = +req.query.page;
+  const consulta = Cliente.find();
+  if (pageSize && page){
+    consulta.skip(pageSize *(page - 1)).limit(pageSize);
+  }
+  let clientesEncontrados;
+  consulta.then(documents => {
+    clientesEncontrados = documents;
+    return Cliente.count()
+
+  }).then(count => {
     res.status(200).json({
       mensagem: "Tudo OK",
-      clientes: documents
+      clientes: clientesEncontrados,
+      maxClientes: count
     });
   });
 });
@@ -75,12 +86,21 @@ router.delete('/:id', (req, res) => {
 });
 
 //http://localhost:3000/api/clientes/123456
-router.put('/:id', (req, res, next) => {
+router.put(
+ ' /:id',
+  multer({ storage: armazenamento}).single('imagem'),
+  (req, res, next) => {
+  let imagemURL = req.body.imagemURL;
+  if (req.file){
+    const url = req.protocol + "://" + req.get('host');
+    imagemURL = url + "/imagens/" + req.file.filename;
+  }
   const cliente = new Cliente({
     _id: req.params.id,
     nome: req.body.nome,
     fone: req.body.fone,
-    email: req.body.email
+    email: req.body.email,
+    imagemURL: imagemURL
   });
   Cliente.updateOne({ _id: req.params.id }, cliente)
     .then((resultado) => {

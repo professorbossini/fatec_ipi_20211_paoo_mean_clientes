@@ -20,18 +20,22 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppComponent } from './app.component';
 import { CabecalhoComponent } from './cabecalho/cabecalho.component';
 import { ClienteListaComponent } from './clientes/cliente-lista/cliente-lista.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClienteInserirComponent,
     CabecalhoComponent,
-    ClienteListaComponent
+    ClienteListaComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
-    //FormsModule,
+    FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,

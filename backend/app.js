@@ -3,7 +3,7 @@ const express = require ('express')
 const cors = require ('cors')
 const mongoose = require ('mongoose')
 const clienteRoutes = require ('./rotas/clientes');
-
+const usuarioRoutes = require ('./rotas/usuarios');
 
 const userDB = process.env.MONGODB_USER;
 const passDB = process.env.MONGODB_PASSWORD;
@@ -21,6 +21,7 @@ app.use('/imagens', express.static(path.join('backend/imagens')));
 app.use(cors())
 
 app.use('/api/clientes', clienteRoutes);
+app.use('/api/usuario', usuarioRoutes);
 
 
 module.exports = app;

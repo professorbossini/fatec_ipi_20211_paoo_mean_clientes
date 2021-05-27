@@ -3,6 +3,8 @@ const multer = require ('multer');
 const Cliente = require('../models/cliente')
 const router = express.Router();
 
+const checkAuth = require('../middleware/check-auth')
+
 const MIME_TYPE_EXTENSAO_MAPA = {
   'image/png': 'png',
   'image/jpeg': 'jpg',
@@ -24,7 +26,7 @@ const armazenamento = multer.diskStorage({
 
 
 
-router.post('', multer({storage: armazenamento}).single('imagem'), (req, res, next) => {
+router.post('', checkAuth, multer({storage: armazenamento}).single('imagem'), (req, res, next) => {
   const imagemURL = `${req.protocol}://${req.get('host')}`;
   const cliente = new Cliente({
     nome: req.body.nome,
@@ -78,7 +80,7 @@ router.get("", (req, res, next) => {
 });
 
 //localhost:3000/api/clientes/abcd
-router.delete('/:id', (req, res) => {
+router.delete('/:id', checkAuth, (req, res) => {
   Cliente.deleteOne({ _id: req.params.id }).then((resultado) => {
     console.log(resultado);
     res.status(200).json({ mensagem: 'Cliente removido' });
@@ -88,6 +90,7 @@ router.delete('/:id', (req, res) => {
 //http://localhost:3000/api/clientes/123456
 router.put(
  '/:id',
+ checkAuth,
   multer({ storage: armazenamento}).single('imagem'),
   (req, res, next) => {
   let imagemURL = req.body.imagemURL;
